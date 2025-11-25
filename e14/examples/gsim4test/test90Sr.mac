@@ -1,0 +1,102 @@
+/GsimPhysicsListFactory/QGSP_BERT/buildAndRegister
+
+/GsimMaterialManager/mixElementByNumber CF4nPentane 3.28e-3*g/cm3 1*atmosphere 300*kelvin C 56 F 44 H 108
+
+/GsimPrimaryGeneratorActionFactory/GsimGeneralParticleSource/buildAndRegister gps
+/gps/particle e-
+/gps/energy 1 MeV
+/gps/position 0 0 -5 cm
+/gps/direction 0 0 1
+/control/execute oglsini.mac
+/GsimEventAction/setVisualizationMode 1
+#/GsimEventAction/setAccumulationNumber -1
+/GsimTrackingAction/setBriefTrackStore true
+
+/GsimDetector/world/setParameters 30*cm 30*cm 30*cm
+/GsimDetector/world/setOuterVisibility 0
+/GsimDetectorFactory/GsimDetector/buildAndRegister e14 /world
+
+/GsimDetectorFactory/GsimBox/buildAndRegister         film /world/e14  0 0 -4.5*cm 0 0 0
+/GsimDetector/world/e14/film/setParameters 1*cm 1*cm 0.5*mm
+/GsimDetector/world/e14/film/setOuterMaterial     G4_MYLAR
+/GsimDetector/world/e14/film/setOuterColor red
+
+
+/GsimDetectorFactory/GsimBox/buildAndRegister trig0 /world/e14 0 0 -3*cm 0 0 0
+/GsimDetector/world/e14/trig0/setParameters 1*cm 1*cm 0.2*mm
+/GsimDetector/world/e14/trig0/setSensitiveDetectorWithName trig0
+
+/GsimDetectorFactory/GsimBox/buildAndRegister trig1 /world/e14 0 0 3*cm 0 0 0
+/GsimDetector/world/e14/trig1/setParameters 1*cm 1*cm 0.2*mm
+/GsimDetector/world/e14/trig1/setSensitiveDetectorWithName trig1
+
+/GsimDetectorFactory/GsimBox/buildAndRegister trig2 /world/e14 0 0 5*cm 0 0 0
+/GsimDetector/world/e14/trig2/setParameters 1*cm 1*cm 0.5*mm
+/GsimDetector/world/e14/trig2/setSensitiveDetectorWithName trig2
+
+
+
+/GsimDetectorFactory/GsimBox/buildAndRegister         bhcv /world/e14  0 0 0 0 0 0
+/GsimDetector/world/e14/bhcv/setParameters 2.2*cm 5*cm 3.2*mm
+/GsimDetector/world/e14/bhcv/setOuterMaterial             CF4nPentane
+/GsimDetector/world/e14/bhcv/setSensitiveDetectorWithName BHCV 0
+/GsimDetector/world/e14/bhcv/setOuterColor blue
+
+
+/GsimDetectorFactory/GsimBox/buildAndRegister         bhcv1 /world/e14  (1.1+0.7)*cm 0 0 0 0 0
+/GsimDetector/world/e14/bhcv1/setParameters 1.4*cm 5*cm 3.2*mm
+/GsimDetector/world/e14/bhcv1/setOuterMaterial             CF4nPentane
+/GsimDetector/world/e14/bhcv1/setSensitiveDetectorWithName BHCV 1
+/GsimDetector/world/e14/bhcv1/setOuterColor yellow
+
+/GsimDetectorFactory/GsimBox/buildAndRegister         bhcv2 /world/e14  -(1.1+0.7)*cm 0 0 0 0 0
+/GsimDetector/world/e14/bhcv2/setParameters 1.4*cm 5*cm 3.2*mm
+/GsimDetector/world/e14/bhcv2/setOuterMaterial             CF4nPentane
+/GsimDetector/world/e14/bhcv2/setSensitiveDetectorWithName BHCV 2
+/GsimDetector/world/e14/bhcv2/setOuterColor yellow
+
+
+/GsimDetectorFactory/GsimBox/buildAndRegister         bhcv3 /world/e14  (2.5+1)*cm 0 0 0 0 0
+/GsimDetector/world/e14/bhcv3/setParameters 2*cm 5*cm 6.4*mm
+/GsimDetector/world/e14/bhcv3/setOuterMaterial             GsimG10
+/GsimDetector/world/e14/bhcv3/setOuterColor cyan
+
+/GsimDetectorFactory/GsimBox/buildAndRegister         bhcv4 /world/e14  -(2.5+1)*cm 0 0 0 0 0
+/GsimDetector/world/e14/bhcv4/setParameters 2*cm 5*cm 6.4*mm
+/GsimDetector/world/e14/bhcv4/setOuterMaterial             GsimG10
+/GsimDetector/world/e14/bhcv4/setOuterColor cyan
+
+/GsimDetectorFactory/GsimBox/buildAndRegister         bhcv5 /world/e14  0 (2.5+1)*cm 0 0 0 0
+/GsimDetector/world/e14/bhcv5/setParameters 9*cm 2*cm 6.4*mm
+/GsimDetector/world/e14/bhcv5/setOuterMaterial             GsimG10
+/GsimDetector/world/e14/bhcv5/setOuterColor gray50
+
+/GsimDetectorFactory/GsimBox/buildAndRegister         bhcv6 /world/e14  0 -(2.5+1)*cm 0 0 0 0
+/GsimDetector/world/e14/bhcv6/setParameters 9*cm 2*cm 6.4*mm
+/GsimDetector/world/e14/bhcv6/setOuterMaterial             GsimG10
+/GsimDetector/world/e14/bhcv6/setOuterColor gray50
+
+/GsimDetectorFactory/GsimBox/buildAndRegister         bhcv7 /world/e14  0 0 -1.6*mm-0.015*mm 0 0 0
+/GsimDetector/world/e14/bhcv7/setParameters 5*cm 5*cm 0.030*mm
+/GsimDetector/world/e14/bhcv7/setOuterMaterial     G4_MYLAR
+/GsimDetector/world/e14/bhcv7/setOuterColor red
+
+/GsimDetectorFactory/GsimBox/buildAndRegister         bhcv8 /world/e14  0 0 +1.6*mm+0.015*mm 0 0 0
+/GsimDetector/world/e14/bhcv8/setParameters 5*cm 5*cm 0.030*mm
+/GsimDetector/world/e14/bhcv8/setOuterMaterial     G4_MYLAR
+/GsimDetector/world/e14/bhcv8/setOuterColor red
+
+
+
+/GsimDetector/world/e14/setThisAndDaughterMtimeStore true
+/GsimEventAction/setSkipEmptyData true
+
+/GsimSpectrumFactory/GsimBetaDecaySpectrum/buildAndRegister
+/GsimSpectrum/GsimBetaDecaySpectrum/addSpectrum Special
+/GsimSpectrum/GsimBetaDecaySpectrum/setBetaDecayTheta 5*deg
+
+/GsimDetector/world/setThisUserTimeMax 1000 ns
+
+/GsimDetectorManager/update
+/run/initialize
+#/run/beamOn 20

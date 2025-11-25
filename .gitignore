@@ -1,0 +1,13 @@
+*~
+*.o
+*.so
+*Dict.h
+*Dict.cc
+tmp
+lib
+bin
+include
+*/share/*
+tmp.root
+.svn
+

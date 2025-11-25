@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# Please set as follow
+#export E14_TUNNEL_HOST=[your tunnel host name]
+#export E14_TUNNEL_USER=[your login id for the tunnel host]
+#export E14_TUNNEL_PORT=61022
+
+TARGET=`uname 2>/dev/null`
+isKEKCC=`hostname | sed -n "/cc.kek.jp/p"`
+
+
+
+if [ "x${isKEKCC}" = x ];then 
+    isKEKCC=`hostname -f | sed -n "/cc.kek.jp/p"`
+fi
+
+if [ "x${isKEKCC}" != x ];then
+    echo "Here is inside KEK CC. No E14 tunnel is needed."
+    exit 0
+fi
+
+
+if [ "x${E14_TUNNEL_USER}" = x ]; then
+    echo "Please set E14_TUNNEL_USER."
+    exit 1
+fi
+
+if [ "x${E14_TUNNEL_PORT}" = x ]; then
+    echo "Please set E14_TUNNEL_PORT."
+    exit 1
+fi
+
+
+portPID=
+if [ $TARGET = Darwin ]; then
+    portPID=$(lsof | grep ${E14_TUNNEL_PORT} | head -n 1 | awk '{print $2}')
+else
+    if [ x$(which fuser) != x ];then
+	portPID=$($(which fuser) -n tcp ${E14_TUNNEL_PORT})
+    elif [ -f /sbin/fuser ];then
+	portPID=/sbin/fuser -n tcp ${E14_TUNNEL_PORT}
+    elif [ -f /usr/sbin/fuser ];then
+	portPID=/usr/sbin/fuser -n tcp ${E14_TUNNEL_PORT}
+    else
+	echo "No fuser found."
+	exit 1
+    fi
+fi
+
+case "$1" in
+    start)
+	if [ "x${portPID}" != x ]; then
+	    echo "The port ${E14_TUNNEL_PORT} is already used."
+	else
+	    echo "Start E14 tunnel connection to KEK CC..."
+	    ssh -l ${E14_TUNNEL_USER} -f -C -N \
+		-L ${E14_TUNNEL_PORT}:login.cc.kek.jp:22 \
+		${E14_TUNNEL_HOST}
+	fi
+	;;
+    stop)
+	if [ "x${portPID}" != x ]; then
+	    echo "Stop E14 tunnel connection to KEK CC ..."
+	    kill ${portPID}
+	else
+	    echo "The port ${E14_TUNNEL_PORT} is not used."
+	    exit 1
+	fi
+	;;
+    *)
+        echo "Usage: {start|stop}"
+        exit 1
+esac
+exit 0
+
+
+

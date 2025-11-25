@@ -1,0 +1,68 @@
+#ifndef E14FsimFunction_h
+#define E14FsimFunction_h
+
+class E14FsimInefficiency;
+
+class E14FsimFunction
+{
+ public:
+  E14FsimFunction();
+  ~E14FsimFunction();
+
+  static E14FsimFunction* getFunction();
+
+  //ineffi. weight
+  double getCSIWeight(double Mome , int PID);
+  double getBARWeight(double Mome , int PID , double theta,int VetoID, double z);
+  
+  //photon ineffi.
+  double mbineff( double x, double theta );
+  double csiineff( double x );
+  double catcherIneff(double Egamma);//MeV
+  double catcherIneff2502(double Egamma);//MeV
+
+  //fusion
+  double fusionProb(double dgg);
+  double fusionProbKAMI(double dgg);
+  double fusionProbChi2(double dgg);
+  double fusionProbRMS(double dgg);
+  
+
+  //smearing
+  double csiAngRes(double Egamma);
+  double csiEnergyRes(double Egamma);
+  double csiPosRes(double Egamma);
+
+  inline void setFusionMode(int imode) { m_fusionMode=imode; }
+  inline void loadInefficiency(E14FsimInefficiency* ineff) { m_ineff = ineff; }
+  void setBHPVConfiguration(int config, int threshold=-1);
+  
+  
+ protected:
+  static E14FsimFunction* s_function;
+
+  E14FsimInefficiency* m_ineff;
+
+
+
+  double CVineff(double p , int PID);
+  double PVineff(double Egamma);
+  double newCVineffPi(double P , int PID);
+
+
+  double func1(double* par, double x );
+  double func0(double* par, double x );
+  
+  double m_CVineffPar[2][6];
+  double m_fpar[9][4];
+
+  int m_fusionMode;
+
+  //201305 : 12 module
+  int    m_BHPVConfig;
+  //2502 : 25 module
+  int    m_BHPVthreshold;
+  double m_BHPVLnInefficiency[7];
+};
+
+#endif

@@ -1,0 +1,16 @@
+[0] pulseView Energy(MeV)
+
+For 1 MeV signal,
+./bin/pulseGen 1
+
+For 0 MeV (noise),
+./bin/pulseGen 1
+
+[1] pulseGen Energy(MeV) Time(ns) nEvents outputFile
+
+./bin/pulseGen 1 160 1000 out.root
+
+root -l out.root
+root [1] tr->Draw("adc:Iteration$","","colz");
+root [2] tr->Draw("adc:Iteration$","Entry$==0","colz");
+root [3] tr->Draw("adc:Iteration$","Entry$==1","colz");
