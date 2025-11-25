@@ -1,0 +1,7 @@
+add_subdirectory(gsim4test)
+add_subdirectory(novice01)
+add_subdirectory(pulseGenerator)
+add_subdirectory(gsim4VolumeFinder)
+add_subdirectory(e14sim)
+add_subdirectory(kpigg)
+add_subdirectory(mbInefficiency)
