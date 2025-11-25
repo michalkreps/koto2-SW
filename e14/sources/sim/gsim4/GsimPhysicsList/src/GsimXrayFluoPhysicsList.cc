@@ -35,7 +35,7 @@
 #include "GsimPhysicsList/GsimXrayFluoPhysicsListMessenger.h"
 
 #include "G4LossTableManager.hh"
-#include "G4EmProcessOptions.hh"
+#include "G4EmParameters.hh"
 #include "G4ProcessManager.hh"
 
 //#include "PhysListEmStandard.hh"
@@ -161,14 +161,10 @@ void GsimXrayFluoPhysicsList::ConstructProcess()
 
   // Em options
   //
-  G4EmProcessOptions emOptions;
-  emOptions.SetBuildCSDARange(true);
-  emOptions.SetDEDXBinningForCSDARange(10*10);
-  //emOptions.SetDeexcitationActiveRegion(true); //TBC
-  emOptions.SetFluo(true);
-  emOptions.SetAuger(true);
-  emOptions.SetPIXE(true);
-
+  G4EmParameters* param = G4EmParameters::Instance();
+  param->SetFluo(true);
+  param->SetAuger(true);
+  param->SetPixe(true);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

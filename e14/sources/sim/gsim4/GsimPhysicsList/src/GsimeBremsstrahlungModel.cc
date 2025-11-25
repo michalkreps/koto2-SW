@@ -64,6 +64,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 #include "GsimPhysicsList/GsimeBremsstrahlungModel.h"
+#include "G4EmParameters.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4Electron.hh"
@@ -813,7 +814,7 @@ void GsimeBremsstrahlungModel::SampleSecondaries(std::vector<G4DynamicParticle*>
     }
     gammaEnergy = x*kineticEnergy; 
 
-    if (LPMFlag()) {
+    if (G4EmParameters::Instance()->LPM()) {
      // take into account the supression due to the LPM effect
       if (G4UniformRand() <= SupressionFunction(material,kineticEnergy,
                                                            gammaEnergy))
@@ -938,7 +939,7 @@ G4double GsimeBremsstrahlungModel::SupressionFunction(const G4Material* material
 
   G4double supr = 1.0;
 
-  if (LPMFlag()) {
+  if (G4EmParameters::Instance()->LPM()) {
 
     G4double s2lpm = LPMEnergy*gammaEnergy/totEnergySquare;
 

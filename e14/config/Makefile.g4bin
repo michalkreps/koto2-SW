@@ -35,8 +35,8 @@ EXTRALIBS += $(shell geant4-config --libs)
 endif
 
 ifneq "$(shell geant4-config --cflags | grep G4VIS_USE 2>/dev/null)" ""
-CXXFLAGS += -DG4VIS_USE
-CPPFLAGS += -DG4VIS_USE
+CXXFLAGS += -DG4VIS_USE -DQT_NO_VERSION_TAGGING
+CPPFLAGS += -DG4VIS_USE -DQT_NO_VERSION_TAGGING
 endif
 
 
@@ -113,8 +113,10 @@ COMPILE_CC  := $(CC)  -c  $(DEFS) $(INCLUDES_C:%=-I%) $(CFLAGS)
 COMPILE_CXX := $(CXX) -c  $(DEFS) $(INCLUDES_C:%=-I%) $(CXXFLAGS)
 LINK_CC  := $(CC)
 LINK_CXX := $(CXX)
-DEPEND_CC  := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(filter-out -fPIC,$(CFLAGS))
-DEPEND_CXX := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(filter-out -fPIC,$(CXXFLAGS))
+#DEPEND_CC  := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(filter-out -fPIC,$(CFLAGS))
+#DEPEND_CXX := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(filter-out -fPIC,$(CXXFLAGS))
+DEPEND_CC  := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(CFLAGS)
+DEPEND_CXX := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(CXXFLAGS)
 
 
 src/%Dict.cc: $(PACKAGE)/%LinkDef.h

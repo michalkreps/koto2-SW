@@ -89,8 +89,10 @@ COMPILE_CC  := $(CC)  -c  $(DEFS) $(INCLUDES_C:%=-I%) $(CFLAGS)
 COMPILE_CXX := $(CXX) -c  $(DEFS) $(INCLUDES_C:%=-I%) $(CXXFLAGS)
 LINK_CC  := $(CC)
 LINK_CXX := $(CXX)
-DEPEND_CC  := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(filter-out -fPIC,$(CFLAGS))
-DEPEND_CXX := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(filter-out -fPIC,$(CXXFLAGS))
+#DEPEND_CC  := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(filter-out -fPIC,$(CFLAGS))
+#DEPEND_CXX := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(filter-out -fPIC,$(CXXFLAGS))
+DEPEND_CC  := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(CFLAGS)
+DEPEND_CXX := $(CC) -MM $(DEFS) $(INCLUDES_C:%=-I%) $(CPPFLAGS) $(CXXFLAGS)
 
 tmp/%.o: src/%.c
 	@ [ -d ./tmp ] || mkdir -p ./tmp

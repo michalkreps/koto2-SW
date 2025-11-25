@@ -157,8 +157,31 @@ GsimeBremsstrahlung::InitialiseEnergyLossProcess(const G4ParticleDefinition*,
 	->report("warning",msg);
     }
 
-
-#if ( G4VERSION_NUMBER/10 >= 104 )
+#if ( G4VERSION_NUMBER/10 >= 110 )
+    if(m_mode==0) {
+      if (!EmModel(0)) { SetEmModel(new G4SeltzerBergerModel()); }
+      EmModel(0)->SetLowEnergyLimit(emin);
+      EmModel(0)->SetHighEnergyLimit(energyLimit);
+      EmModel(0)->SetSecondaryThreshold(param->BremsstrahlungTh());
+      G4EmParameters::Instance()->SetLPM(false);
+      AddEmModel(1, EmModel(0), fm);
+    } else if(m_mode==1) {
+      if (!EmModel(0)) { SetEmModel(new GsimeBremsstrahlungModel()); }
+      EmModel(0)->SetLowEnergyLimit(emin);
+      EmModel(0)->SetHighEnergyLimit(energyLimit);
+      EmModel(0)->SetSecondaryThreshold(param->BremsstrahlungTh());
+      G4EmParameters::Instance()->SetLPM(false);
+      AddEmModel(1, EmModel(0), fm);
+    }
+    if(emax > energyLimit) {
+      if (!EmModel(1)) { SetEmModel(new G4eBremsstrahlungRelModel()); }
+      EmModel(1)->SetLowEnergyLimit(energyLimit);
+      EmModel(1)->SetHighEnergyLimit(emax); 
+      EmModel(1)->SetSecondaryThreshold(param->BremsstrahlungTh());
+      G4EmParameters::Instance()->SetLPM(false);
+      AddEmModel(1, EmModel(1), fm);
+    }
+#elif ( G4VERSION_NUMBER/10 >= 104 )
     if(m_mode==0) {
       if (!EmModel(0)) { SetEmModel(new G4SeltzerBergerModel()); }
       EmModel(0)->SetLowEnergyLimit(emin);

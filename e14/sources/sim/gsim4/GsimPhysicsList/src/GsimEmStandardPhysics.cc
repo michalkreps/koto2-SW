@@ -84,7 +84,6 @@
 
 #include "G4hIonisation.hh"
 #include "G4ionIonisation.hh"
-#include "G4alphaIonisation.hh"
 
 #include "G4ParticleTable.hh"
 #include "G4Gamma.hh"
@@ -434,7 +433,6 @@ void GsimEmStandardPhysics::ConstructProcess()
 
 #include "G4hIonisation.hh"
 #include "G4ionIonisation.hh"
-#include "G4alphaIonisation.hh"
 
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
@@ -729,7 +727,6 @@ void GsimEmStandardPhysics::ConstructProcess()
 
 #include "G4hIonisation.hh"
 #include "G4ionIonisation.hh"
-#include "G4alphaIonisation.hh"
 
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
@@ -1078,7 +1075,6 @@ void GsimEmStandardPhysics::ConstructProcess()
 
 #include "G4hIonisation.hh"
 #include "G4ionIonisation.hh"
-#include "G4alphaIonisation.hh"
 
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
@@ -1432,7 +1428,6 @@ void GsimEmStandardPhysics::ConstructProcess()
 
 #include "G4hIonisation.hh"
 #include "G4ionIonisation.hh"
-#include "G4alphaIonisation.hh"
 
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
@@ -1790,7 +1785,6 @@ void GsimEmStandardPhysics::ConstructProcess()
 
 #include "G4hIonisation.hh"
 #include "G4ionIonisation.hh"
-#include "G4alphaIonisation.hh"
 
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
@@ -2162,7 +2156,6 @@ void GsimEmStandardPhysics::ConstructProcess()
 
 #include "G4hIonisation.hh"
 #include "G4ionIonisation.hh"
-#include "G4alphaIonisation.hh"
 
 #include "G4Gamma.hh"
 #include "G4Electron.hh"

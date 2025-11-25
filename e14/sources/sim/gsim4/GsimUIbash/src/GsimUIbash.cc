@@ -45,8 +45,10 @@
 #include "G4UIArrayString.hh"
 #include "G4VBasicShell.hh"
 
+#include <string>
+
 // terminal color string
-static const G4String strESC= '\033';
+static const G4String strESC= "\033";
 static const G4String TermColorString[8] ={ 
   strESC+"[30m", strESC+"[31m", strESC+"[32m", strESC+"[33m", 
   strESC+"[34m", strESC+"[35m", strESC+"[36m", strESC+"[37m"
@@ -130,17 +132,17 @@ void GsimUIbash::MakePrompt(const char* msg)
 	i++;
         break;
       default:
-	promptString.append(G4String(promptSetting[(size_t)i]));
+	promptString.append(G4String(1, promptSetting[(size_t)i]));
         break;
       }           
     } else {
-      promptString.append(G4String(promptSetting[(size_t)i]));
+      promptString.append(G4String(1, promptSetting[(size_t)i]));
     }
   }
 
   // append last chaacter
   if(i == G4int(promptSetting.length())-1) 
-    promptString.append(G4String(promptSetting[(size_t)i]));
+    promptString.append(G4String(1, promptSetting[(size_t)i]));
 }
 
 
@@ -156,7 +158,9 @@ G4UIcommandTree* GsimUIbash::GetCommandTree(const G4String& input) const
   G4UIcommandTree* cmdTree= UI-> GetTree();  // root tree
 
   G4String absPath= input; // G4String::strip() CONST !!
-  absPath= GetAbsCommandDirPath(absPath.strip(G4String::both));
+  G4StrUtil::strip(absPath);
+  absPath= GetAbsCommandDirPath(absPath);
+  //absPath= GetAbsCommandDirPath(G4StrUtil::strip(absPath));
 
   // parsing absolute path ...
   if(absPath.length()==0) return NULL;
@@ -164,10 +168,10 @@ G4UIcommandTree* GsimUIbash::GetCommandTree(const G4String& input) const
   if(absPath=="/") return cmdTree;
 
   for(G4int indx=1; indx<G4int(absPath.length())-1; ) {
-    G4int jslash= absPath.index("/", indx);  // search index begin with "/" 
+    G4int jslash= absPath.find("/", indx);  // search index begin with "/" 
     if(jslash != G4int(G4String::npos)) {
       if(cmdTree != NULL)
-        cmdTree= cmdTree-> GetTree(G4String(absPath(0,jslash+1)));
+        cmdTree= cmdTree-> GetTree(G4String(absPath.substr(0,jslash+1)));
     }
     indx= jslash+1;
   }
@@ -190,18 +194,18 @@ G4String GsimUIbash::GetAbsCommandDirPath(const G4String& apath) const
   // parsing...
   G4String absPath= "/";
   for(G4int indx=1; indx<=G4int(bpath.length())-1; ) {
-    G4int jslash= bpath.index("/", indx);  // search index begin with "/"
+    G4int jslash= bpath.find("/", indx);  // search index begin with "/"
     if(jslash != G4int(G4String::npos)) {
-      if(bpath(indx,jslash-indx) == ".."){  // directory up
+      if(bpath.substr(indx,jslash-indx) == ".."){  // directory up
         if(absPath.length() >=1) {
-          absPath.remove(absPath.length()-1);  // remove last  "/"
-          G4int jpre= absPath.last('/');
-          if(jpre != G4int(G4String::npos)) absPath.remove(jpre+1);
+          absPath.erase(absPath.length()-1);  // remove last  "/"
+          G4int jpre= absPath.rfind('/');
+          if(jpre != G4int(G4String::npos)) absPath.erase(jpre+1);
         }
-      } else if(bpath(indx,jslash-indx) == "."){  // nothing to do
+      } else if(bpath.substr(indx,jslash-indx) == "."){  // nothing to do
       } else { // add
-        if( !(jslash==indx && bpath(indx)=='/') ) // truncate "////"
-          absPath+= bpath(indx, jslash-indx+1);
+        if( !(jslash==indx && bpath[indx]=='/') ) // truncate "////"
+          absPath+= bpath.substr(indx, jslash-indx+1);
           // better to be check directory existence. (it costs!)
       }
     } else { // directory ONLY (ignore non-"/" terminated string)
@@ -218,7 +222,7 @@ G4String GsimUIbash::GetCommandPathTail(const G4String& apath) const
 {   // xxx/xxx/zzz -> zzz, trancate /// -> /
   if(apath.empty()) return apath;
 
-  G4int lstr= apath.length();
+  G4int lstr= apath.size();
 
   // for trancating "/"
   G4bool Qsla= FALSE;
@@ -242,7 +246,7 @@ G4String GsimUIbash::GetCommandPathTail(const G4String& apath) const
   } else {  
     //G4String newPath= apath(indx+1,lstr-indx-1); 
     G4String newPath= apath;
-    newPath= newPath(indx+1,lstr-indx-1);
+    newPath= newPath.substr(indx+1,lstr-indx-1);
     return newPath;
   }
 }
@@ -257,7 +261,8 @@ void GsimUIbash::ListCommand(const G4String& dir,
 {
   // specified directpry
   G4String input= dir; // ...
-  input= input.strip(G4String::both);
+  G4StrUtil::strip(input);
+  //input= input.strip(G4String::both);
 
   // command tree of "user specified directory"
   G4String vpath= currentCommandDir;
@@ -273,8 +278,8 @@ void GsimUIbash::ListCommand(const G4String& dir,
       }   
     }
     // get abs. path
-    if(indx != -1) vpath= GetAbsCommandDirPath(input(0,indx+1));
-    if(!(indx==0  && len==1)) vcmd= input(indx+1,len-indx-1); // care for "/"
+    if(indx != -1) vpath= GetAbsCommandDirPath(input.substr(0,indx+1));
+    if(!(indx==0  && len==1)) vcmd= input.substr(indx+1,len-indx-1); // care for "/"
   }
 
   // check "vcmd" is directory?
@@ -313,7 +318,7 @@ void GsimUIbash::ListCommand(const G4String& dir,
 	isMatch= TRUE;
       }
     } else { // list only matched with candidate
-      if( fpdir.index(candidate, 0) == 0) {
+      if( fpdir.find(candidate, 0) == 0) {
 	stream+= GetCommandPathTail(fpdir); stream+= "  ";
       }
     }
@@ -331,7 +336,7 @@ void GsimUIbash::ListCommand(const G4String& dir,
 	isMatch= TRUE;
       }
     } else {  // list only matched with candidate
-      if( fpcmd.index(candidate, 0) == 0) {
+      if( fpcmd.find(candidate, 0) == 0) {
 	stream+= GetCommandPathTail(fpcmd); stream+= "*  ";
       }
     }
@@ -370,7 +375,7 @@ G4String GsimUIbash::GetCommandLine(const char* msg) {
     newCommand= "exit";
     return newCommand;
   }
-  newCommand = newCommand.strip(1,'\r'); // fix for odd behavior on Windows
+  G4StrUtil::strip(newCommand, '\r'); // fix for odd behavior on Windows
 
   
   if(newCommand!="") {
@@ -433,7 +438,8 @@ char* command_generator (const char* text, int state) {
   }
   
   // inputting string
-  G4String input= G4String(text).strip(G4String::leading);
+  G4String input= G4String(text);
+  G4StrUtil::lstrip(input);
 
 //   // target token is last token
 //   G4int jhead= input.last(' ');
@@ -451,14 +457,14 @@ char* command_generator (const char* text, int state) {
   if(!input.empty()) {
     G4int indx= -1;
     for(G4int i=len-1; i>=0; i--) {
-      if(input(i)=='/') {
+      if(input[i]=='/') {
 	indx= i;
 	break;
       }   
     }
     // get abs. path
-    if(indx != -1) vpath= fUIbash->GetAbsCommandDirPath(input(0,indx+1));  
-    if(!(indx==0  && len==1)) vcmd= input(indx+1,len-indx-1);  // care for "/"
+    if(indx != -1) vpath= fUIbash->GetAbsCommandDirPath(input.substr(0,indx+1));  
+    if(!(indx==0  && len==1)) vcmd= input.substr(indx+1,len-indx-1);  // care for "/"
   }
   
   G4UIcommandTree* atree= fUIbash->GetCommandTree(vpath);
@@ -474,7 +480,7 @@ char* command_generator (const char* text, int state) {
       lastdir = fpdir;
       list_index++;
       // matching test
-      if( fpdir.index(inputpath, 0) == 0) {
+      if( fpdir.find(inputpath, 0) == 0) {
 	NumOfMatch++;
 	return dupstr(fpdir.c_str());
       }
@@ -486,7 +492,7 @@ char* command_generator (const char* text, int state) {
 	atree-> GetCommand(list_index-Ndir) -> GetCommandName();
       list_index++;
       // matching test
-      if( fpcmd.index(inputpath, 0) ==0) {
+      if( fpcmd.find(inputpath, 0) ==0) {
 	NumOfMatch++;
 	return dupstr(fpcmd.c_str());
       }
@@ -515,7 +521,8 @@ char * uibash_completion_function(const char *text, int state ) {
   }
   
   // inputting string
-  G4String input= G4String(text).strip(G4String::leading);
+  G4String input= G4String(text);
+  G4StrUtil::lstrip(input);
   
   //   // target token is last token
   //   G4int jhead= input.last(' ');
@@ -533,14 +540,14 @@ char * uibash_completion_function(const char *text, int state ) {
   if(!input.empty()) {
     G4int indx= -1;
     for(G4int i=len-1; i>=0; i--) {
-      if(input(i)=='/') {
+      if(input[i]=='/') {
 	indx= i;
 	break;
       }   
     }
     // get abs. path
-    if(indx != -1) vpath= fUIbash->GetAbsCommandDirPath(input(0,indx+1));  
-    if(!(indx==0  && len==1)) vcmd= input(indx+1,len-indx-1);  // care for "/"
+    if(indx != -1) vpath= fUIbash->GetAbsCommandDirPath(input.substr(0,indx+1));  
+    if(!(indx==0  && len==1)) vcmd= input.substr(indx+1,len-indx-1);  // care for "/"
   }
 
   G4UIcommandTree* atree= fUIbash->GetCommandTree(vpath);
@@ -560,7 +567,7 @@ char * uibash_completion_function(const char *text, int state ) {
       G4String fpdir= atree-> GetTree(list_index)->GetPathName();
       list_index++;
       // matching test
-      if( fpdir.index(inputpath, 0) == 0) {
+      if( fpdir.find(inputpath, 0) == 0) {
 	NumOfMatch++;
 	return dupstr(fpdir.c_str());
       }
@@ -572,7 +579,7 @@ char * uibash_completion_function(const char *text, int state ) {
 	atree-> GetCommand(list_index-Ndir) -> GetCommandName();
       list_index++;
       // matching test
-      if( fpcmd.index(inputpath, 0) ==0) {
+      if( fpcmd.find(inputpath, 0) ==0) {
 	NumOfMatch++;
 	return dupstr(fpcmd.c_str());
       }
