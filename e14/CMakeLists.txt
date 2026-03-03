@@ -24,8 +24,10 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(GsimModule)
 
 # Define global include directories
+file(GLOB GSIM4_MODULE_DIRS "${PROJECT_SOURCE_DIR}/sources/sim/gsim4/Gsim*")
 include_directories(
   ${PROJECT_SOURCE_DIR}/include
+  ${GSIM4_MODULE_DIRS}
   ${Geant4_INCLUDE_DIRS}
   ${ROOT_INCLUDE_DIRS}
   ${CLHEP_INCLUDE_DIRS}
