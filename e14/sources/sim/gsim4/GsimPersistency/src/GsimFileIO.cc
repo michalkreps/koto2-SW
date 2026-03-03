@@ -30,7 +30,7 @@ GsimFileIO::GsimFileIO(const char* tfname)
   if(tfname==0) m_ofname="";
   else m_ofname=std::string(tfname);
     
-  m_dictfn=="";
+  m_dictfn="";
   m_runNumber=0;
   m_cycleOfEventSeedStore=1000;
   
