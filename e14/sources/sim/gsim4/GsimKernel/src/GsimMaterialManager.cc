@@ -373,22 +373,22 @@ void GsimMaterialManager::defineMaterials()
      */
     const G4int nEntries=17;
     G4double photonWaveLength[nEntries] = {
-      300.0, 325.0, 350.0, 375.0,
-      400.0, 425.0, 450.0, 475.0,
-      500.0, 525.0, 550.0, 575.0,
-      600.0, 625.0, 650.0, 675.0,
-      700.0
+      700.0, 675.0, 650.0, 625.0,
+      600.0, 575.0, 550.0, 525.0,
+      500.0, 475.0, 450.0, 425.0,
+      400.0, 375.0, 350.0, 325.0,
+      300.0
     };//[nm]
     G4double photonEnergy[nEntries];
     for(int i=0;i<nEntries;i++) {
       photonEnergy[i]=2.*M_PI*197.326/photonWaveLength[i]*eV;
     }
     G4double refractiveIndex[nEntries] = {
-      1.000286349, 1.000283315, 1.000280985, 1.000279151,
-      1.000277679, 1.000276478, 1.000275484, 1.000274653,
-      1.000273949, 1.000273348, 1.000272831, 1.000272382,
-      1.000271990, 1.000271646, 1.000271341, 1.000271071,
-      1.000270830
+      1.000270830, 1.000271071, 1.000271341, 1.000271646,
+      1.000271990, 1.000272382, 1.000272831, 1.000273348,
+      1.000273949, 1.000274653, 1.000275484, 1.000276478,
+      1.000277679, 1.000279151, 1.000280985, 1.000283315,
+      1.000286349
     };
     //20 Celsius degree, 30% humidity, 101.325kPa, 450ppm CO2
     //uncertainty in calculation : 3e-8
@@ -407,8 +407,8 @@ void GsimMaterialManager::defineMaterials()
      */
     const G4int nEntries=2;
     G4double photonWaveLength[nEntries] = {
-      300.0,
-      700.0
+      700.0,
+      300.0
     };//[nm]
     G4double photonEnergy[nEntries];
     for(int i=0;i<nEntries;i++) {
@@ -432,8 +432,8 @@ void GsimMaterialManager::defineMaterials()
      */
     const G4int nEntries=2;
     G4double photonWaveLength[nEntries] = {
-      300.0,
-      700.0
+      700.0,
+      300.0
     };//[nm]
     G4double photonEnergy[nEntries];
     for(int i=0;i<nEntries;i++) {
@@ -455,8 +455,8 @@ void GsimMaterialManager::defineMaterials()
      */
     const G4int nEntries=2;
     G4double photonWaveLength[nEntries] = {
-      300.0,
-      700.0
+      700.0,
+      300.0
     };//[nm]
     G4double photonEnergy[nEntries];
     for(int i=0;i<nEntries;i++) {
@@ -475,22 +475,22 @@ void GsimMaterialManager::defineMaterials()
     
     const G4int nEntries=16;
     G4double photonWaveLength[nEntries] = {
-      260.,
-      280.,
-      300.,
-      320.,
-      340.,
-      360.,
-      380.,
-      400.,
-      450.,
-      500.,
-      550.,
-      600.,
-      700.,
-      800.,
+      1200.,
       1000.,
-      1200.
+      800.,
+      700.,
+      600.,
+      550.,
+      500.,
+      450.,
+      400.,
+      380.,
+      360.,
+      340.,
+      320.,
+      300.,
+      280.,
+      260.
     };//[nm]                                                                                                                                                                         
     G4double photonEnergy[nEntries];
     for(int i=0;i<nEntries;i++) {
